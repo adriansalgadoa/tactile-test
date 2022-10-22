@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import VersionsEditor from './VersionsEditor';
+import VersionsEditor from 'components/VersionsEditor';
 
 function App() {
   return (
