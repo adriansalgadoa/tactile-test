@@ -1,18 +1,28 @@
+import { useState } from 'react';
 import Input from 'components/Input/Input';
 
 import './VersionsEditor.css';
 
-export default function VersionsEditor(): JSX.Element {
+const VersionsEditor = ():JSX.Element => {
+  const [showVersionInput, setShowVersionInput] = useState(false);
+
+  const addVersion = () => {
+    console.log('add current version');
+  }
+
   return (
     <div className='card'>
       <div className='row __space-between'>
         <h3 className='title'>Versions</h3>
-        <button className='button'>Add Version</button>
 
-        <div className='buttonContainer'>
-          <button>Add</button>
-          <button>Cancel</button>
-        </div>
+        {showVersionInput ? (
+          <div className='buttonContainer'>
+            <button className='button' onClick={() => addVersion()}>Add</button>
+            <button className='button' onClick={() => setShowVersionInput(false)}>Cancel</button>
+          </div>
+        ) : (
+          <button className='button' onClick={() => setShowVersionInput(true)}>Add Version</button>
+        )}
       </div>
 
       <div className='row'>
@@ -21,10 +31,14 @@ export default function VersionsEditor(): JSX.Element {
         <div className='versionTag'>1.2.0</div>
       </div>
 
-      <div className='row __space-between'>
-        <Input label='Operator' />
-        <Input label='Version' />
-      </div>
+      {showVersionInput && (
+        <div className='row __space-between'>
+          <Input label='Operator' />
+          <Input label='Version' />
+        </div>
+      )}
     </div>
   );
 }
+
+export default VersionsEditor;
