@@ -1,6 +1,6 @@
-import { OPERATOR_IDS, OperatorListElement } from './OperatorList';
+import { OPERATOR_IDS } from './OperatorList';
 
-export const formatVersion = (operator: string, versions: OperatorListElement) => {
+export const formatVersion = (operator: string, versions: string[]) => {
   const mainVer = versions[0];
   switch(operator) {
     case OPERATOR_IDS.GT:

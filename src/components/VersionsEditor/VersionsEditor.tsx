@@ -7,6 +7,14 @@ import { formatVersion, validateVersionFormat } from './utils';
 
 import './VersionsEditor.css';
 
+type VersionElementType = {
+  operator: string;
+  version: string;
+  overlap?: boolean;
+  text?: string;
+}
+
+const INITIAL_OPERATOR = OPERATOR_LIST[0].value;
 
 const VersionsEditor = (): JSX.Element => {
   const [formatError, setFormatError] = useState<boolean>(false);
@@ -17,9 +25,10 @@ const VersionsEditor = (): JSX.Element => {
   const [version, setVersion] = useState<string>('');
 
   const [showDeleteButton, setShowDeleteButton] = useState<boolean>(false);
-  const [operator, setOperator] = useState<string>('');
+  const [operator, setOperator] = useState<string>(INITIAL_OPERATOR);
   const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
-  const [versionList, setVersionList] = useState<string[]>([]);
+  const [versionList, setVersionList] = useState<VersionElementType[]>([]);
+
 
   const clearErrors = () => {
     // Clear error when writing new version
@@ -28,7 +37,7 @@ const VersionsEditor = (): JSX.Element => {
   }
 
   const addVersion = () => {
-    const versions = [];
+    const versions: string[] = [];
     if (operator === OPERATOR_IDS.BE) {
       versions.push(min);
       versions.push(max);
@@ -55,8 +64,10 @@ const VersionsEditor = (): JSX.Element => {
     const newVersionList = [...versionList];
 
     newVersionList.push({
+      overlap: false,
       operator,
-      version: newVersion
+      version: newVersion,
+      text: newVersion,
     });
 
     setVersionList(newVersionList);
@@ -72,17 +83,17 @@ const VersionsEditor = (): JSX.Element => {
     setVersion(newVersion);
   }
 
-  const chooseMin = (min) => {
+  const chooseMin = (min: string) => {
     clearErrors();
     setMin(min);
   }
 
-  const chooseMax = (max) => {
+  const chooseMax = (max: string) => {
     clearErrors();
     setMax(max);
   }
 
-  const setCurrentVersion = ({ operator, version }) => {
+  const setCurrentVersion = ({ operator , version }: VersionElementType) => {
     setVersion(version);
     setOperator(operator);
     setShowVersionInput(true);
@@ -102,7 +113,7 @@ const VersionsEditor = (): JSX.Element => {
   const clearState = () => {
     setShowDeleteButton(false);
     setShowVersionInput(false);
-    setOperator(OPERATOR_LIST[0]);
+    setOperator(INITIAL_OPERATOR);
     setVersion('');
   }
 

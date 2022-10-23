@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import './Input.css';
 
+type OptionType = {
+  text: string;
+  value: string;
+}
+
 type Props = {
   label: string;
-  onChange: (string) => void;
-  options: string[];
+  onChange: (value: string) => void;
+  options: OptionType[];
   value?: string;
 };
 
-const Input = ({ label, onChange, options, value }: Props): JSX.Element => {
+const Select = ({ label, onChange, options, value }: Props): JSX.Element => {
   const [newValue, setValue] = useState<string>(value || options[0].value);
   const [focus, setFocus] = useState<boolean>(newValue ? true : false);
 
@@ -24,9 +29,9 @@ const Input = ({ label, onChange, options, value }: Props): JSX.Element => {
     }
   }
 
-  const onInputChange = ({ target: { value }}): void => {
-    setValue(value);
-    onChange(value);
+  const onInputChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    setValue(event.target.value);
+    onChange(event.target.value);
   }
 
   const inputLabelClassName = focus ? 'inputLabel __focus' : 'inputLabel';
@@ -39,7 +44,6 @@ const Input = ({ label, onChange, options, value }: Props): JSX.Element => {
         onBlur={onBlur}
         onChange={onInputChange}
         onFocus={onFocus}
-        type='text'
         value={newValue}
       >
         {options.map(({ text, value }) => <option key={value} value={value}>{text}</option>)}
@@ -48,4 +52,4 @@ const Input = ({ label, onChange, options, value }: Props): JSX.Element => {
   );
 }
 
-export default Input;
+export default Select;

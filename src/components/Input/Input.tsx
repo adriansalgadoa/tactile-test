@@ -3,7 +3,7 @@ import './Input.css';
 
 type Props = {
   label: string;
-  onChange: (string) => void;
+  onChange: (value:string) => void;
   error?: boolean;
   value?: string;
 };
@@ -24,9 +24,9 @@ const Input = ({ error, label, onChange, value = '' }: Props): JSX.Element => {
     }
   }
 
-  const onInputChange = ({ target }): void => {
-    setValue(target.value);
-    onChange(target.value);
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setValue(event.target.value);
+    onChange(event.target.value);
   }
 
   const inputLabelClassName = focus ? 'inputLabel __focus' : 'inputLabel';

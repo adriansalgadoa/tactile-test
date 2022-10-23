@@ -1,11 +1,15 @@
-type OperatorTypes = 'EQ' | 'GT' | 'GTE' | 'LT' | 'LTE' | 'BE';
+export type OperatorTypes = 'EQ' | 'GT' | 'GTE' | 'LT' | 'LTE' | 'BE';
 
 export type OperatorListElement = {
   text: string;
   value: OperatorTypes;
 }
 
-export const OPERATOR_IDS = {
+type OperatorIdTypes = {
+  [key: string]: OperatorTypes;
+}
+
+export const OPERATOR_IDS: OperatorIdTypes = {
   EQ: 'EQ',
   GT: 'GT',
   GTE: 'GTE',
