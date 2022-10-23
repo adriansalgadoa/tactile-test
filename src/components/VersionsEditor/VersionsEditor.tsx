@@ -10,6 +10,9 @@ const VersionsEditor = ():JSX.Element => {
     console.log('add current version');
   }
 
+  const chooseOperator = (a: string) => console.log('operator: ', a);
+  const chooseVersion = (a: string) => console.log('version: ', a);
+
   return (
     <div className='card'>
       <div className='row __space-between'>
@@ -33,8 +36,8 @@ const VersionsEditor = ():JSX.Element => {
 
       {showVersionInput && (
         <div className='row __space-between'>
-          <Input label='Operator' />
-          <Input label='Version' />
+          <Input label='Operator' onChange={chooseOperator} />
+          <Input label='Version' onChange={chooseVersion} />
         </div>
       )}
     </div>
