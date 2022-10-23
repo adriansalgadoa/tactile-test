@@ -1,0 +1,28 @@
+.input {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F8;
+  border-radius: 4px;
+  height: 54px;
+  padding: 0 16px;
+  width: 360px;
+}
+
+.input:focus {
+  border: 1px solid #000;
+}
+
+.inputLabel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  transition: all .3s ease-out;
+}
+
+.inputLabel.__focus {
+  font-size: 12px;
+  top: 4px;
+}
+
+.inputContainer {
+  position: relative;
+}
