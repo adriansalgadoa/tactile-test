@@ -12,6 +12,10 @@
   border: 1px solid #000;
 }
 
+.input.__error {
+  border-color: red;
+}
+
 .inputLabel {
   pointer-events: none;
   position: absolute;

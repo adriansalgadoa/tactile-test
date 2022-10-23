@@ -83,3 +83,10 @@
 .versionTag.__algo:hover {
   background-color: #CBD6E1;
 }
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}

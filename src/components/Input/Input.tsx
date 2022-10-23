@@ -2,11 +2,12 @@ import { useState } from 'react';
 import './Input.css';
 
 type Props = {
+  error?: boolean;
   label: string;
   onChange: (string) => void;
 };
 
-const Input = ({ label, onChange }: Props) => {
+const Input = ({ error, label, onChange }: Props) => {
   const [focus, setFocus] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
 
@@ -26,12 +27,13 @@ const Input = ({ label, onChange }: Props) => {
   }
 
   const inputLabelClassName = focus ? 'inputLabel __focus' : 'inputLabel';
+  const inputClassName = error ? 'input __error' : 'input';
 
   return (
     <div className='inputContainer'>
       <label className={inputLabelClassName}>{label}</label>
       <input
-        className='input'
+        className={inputClassName}
         onBlur={onBlur}
         onChange={onInputChange}
         onFocus={onFocus}

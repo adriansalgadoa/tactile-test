@@ -24,13 +24,22 @@ const OPERATOR_LIST = [{
   value: 'BE',
 }];
 
+const validate = value => !value.match(/\d{1,3}\.\d{1,3}\.\d{1,3}/)
+
 const VersionsEditor = ():JSX.Element => {
-  const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [operator, setOperator] = useState<string>('');
+  const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
   const [version, setVersion] = useState<string>('');
   const [versionList, setVersionList] = useState<string[]>([]);
 
   const addVersion = () => {
+    // Validate if version has correct format only when clicking add
+    if (validate(version)) {
+      setError(true);
+      return;
+    }
+
     const newVersionList = [...versionList];
     newVersionList.push(version);
     setVersionList(newVersionList);
@@ -40,6 +49,8 @@ const VersionsEditor = ():JSX.Element => {
   const chooseOperator = (a: string) => console.log('operator: ', a);
 
   const chooseVersion = (newVersion: string) => {
+    // Clear error when writing new version
+    setError(false);
     setVersion(newVersion);
   }
 
@@ -65,8 +76,12 @@ const VersionsEditor = ():JSX.Element => {
       {showVersionInput && (
         <div className='row __space-between'>
           <Select label='Operator' onChange={chooseOperator} options={OPERATOR_LIST} />
-          <Input label='Version' onChange={chooseVersion} />
+          <Input error={error} label='Version' onChange={chooseVersion} />
         </div>
+      )}
+
+      {error && (
+        <div className='errorMessage'>Version must be formatted as [num].[num].[num], for example: 1.1.1</div>
       )}
     </div>
   );
