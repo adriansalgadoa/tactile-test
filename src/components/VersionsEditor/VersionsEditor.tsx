@@ -2,57 +2,136 @@ import { useState } from 'react';
 import Input from 'components/Input/Input';
 import Select from 'components/Input/Select';
 
+import OPERATOR_LIST from './OperatorList';
 import './VersionsEditor.css';
 
-const OPERATOR_LIST = [{
-  text: 'equal =',
-  value: 'EQ',
-}, {
-  text: 'greater than >',
-  value: 'GT',
-}, {
-  text: 'greater or equal ≥',
-  value: 'GTE',
-}, {
-  text: 'less than <',
-  value: 'LT',
-}, {
-  text: 'less or equal ≤',
-  value: 'LTE',
-}, {
-  text: 'between',
-  value: 'BE',
-}];
+const validateFormat = value => !value.match(/\d{1,3}\.\d{1,3}\.\d{1,3}/)
 
-const validate = value => !value.match(/\d{1,3}\.\d{1,3}\.\d{1,3}/)
+const formatVersion = (operator, versions) => {
+  const mainVer = versions[0];
+  switch(operator) {
+    case 'GT':
+      return `> ${mainVer}`;
+      break;
+    case 'GTE':
+      return `≥ ${mainVer}`;
+      break;
+    case 'LT':
+      return `< ${mainVer}`;
+      break;
+    case 'LTE':
+      return `≤ ${mainVer}`;
+      break;
+    case 'BE':
+      return `]${versions.join('-')}[`;
+      break;
+    default:
+      return mainVer;
+      break;
+  };
+};
 
-const VersionsEditor = ():JSX.Element => {
-  const [error, setError] = useState<boolean>(false);
+const VersionsEditor = (): JSX.Element => {
+  const [formatError, setFormatError] = useState<boolean>(false);
+  const [repeatedError, setRepeatedError] = useState<boolean>(false);
+
+  const [min, setMin] = useState<string>('');
+  const [max, setMax] = useState<string>('');
+  const [version, setVersion] = useState<string>('');
+
+  const [showDeleteButton, setShowDeleteButton] = useState<boolean>(false);
   const [operator, setOperator] = useState<string>('');
   const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
-  const [version, setVersion] = useState<string>('');
   const [versionList, setVersionList] = useState<string[]>([]);
 
+  const clearErrors = () => {
+    // Clear error when writing new version
+    setFormatError(false);
+    setRepeatedError(false);
+  }
+
   const addVersion = () => {
+    const versions = [];
+    if (operator === 'BE') {
+      versions.push(min);
+      versions.push(max);
+    } else {
+      versions.push(version);
+    }
+
     // Validate if version has correct format only when clicking add
-    if (validate(version)) {
-      setError(true);
+    const validatedFormat = versions.find(validateFormat);
+
+    if (validatedFormat) {
+      setFormatError(true);
       return;
     }
 
+    /*
+    const foundExisting = versionList.find((v) => version === v);
+
+    if (foundExisting) {
+      setRepeatedError(true);
+      return;
+    }
+     */
+
     const newVersionList = [...versionList];
-    newVersionList.push(version);
+    const newVersion = formatVersion(operator, versions);
+
+    newVersionList.push({
+      operator,
+      version: newVersion
+    });
+
     setVersionList(newVersionList);
-    setShowVersionInput(false);
+    clearState();
   }
 
-  const chooseOperator = (a: string) => console.log('operator: ', a);
+  const chooseOperator = (newOperator: string) => {
+    setOperator(newOperator);
+  }
 
   const chooseVersion = (newVersion: string) => {
-    // Clear error when writing new version
-    setError(false);
+    clearErrors();
     setVersion(newVersion);
   }
+
+  const chooseMin = (min) => {
+    clearErrors();
+    setMin(min);
+  }
+
+  const chooseMax = (max) => {
+    clearErrors();
+    setMax(max);
+  }
+
+  const setCurrentVersion = ({ operator, version }) => {
+    setVersion(version);
+    setOperator(operator);
+    setShowVersionInput(true);
+    setShowDeleteButton(true);
+  }
+
+  const deleteCurrent = () => {
+    const newVersionList = [...versionList];
+
+    const foundIndex = newVersionList.findIndex(listElement => version === listElement.version);
+
+    newVersionList.splice(foundIndex, 1);
+    setVersionList(newVersionList);
+    clearState();
+  }
+
+  const clearState = () => {
+    setShowDeleteButton(false);
+    setShowVersionInput(false);
+    setOperator(OPERATOR_LIST[0]);
+    setVersion('');
+  }
+
+  const showError = formatError || repeatedError;
 
   return (
     <div className='card'>
@@ -62,26 +141,52 @@ const VersionsEditor = ():JSX.Element => {
         {showVersionInput ? (
           <div className='buttonContainer'>
             <button className='button' onClick={() => addVersion()}>Add</button>
-            <button className='button' onClick={() => setShowVersionInput(false)}>Cancel</button>
+            <button className='button' onClick={() => clearState()}>Cancel</button>
           </div>
         ) : (
           <button className='button' onClick={() => setShowVersionInput(true)}>Add Version</button>
         )}
       </div>
 
-      <div className='row'>
-        {versionList.map((versionTag) => <div className='versionTag' key={versionTag}>{versionTag}</div>)}
-      </div>
-
-      {showVersionInput && (
-        <div className='row __space-between'>
-          <Select label='Operator' onChange={chooseOperator} options={OPERATOR_LIST} />
-          <Input error={error} label='Version' onChange={chooseVersion} />
+      {versionList.length > 0 && (
+        <div className='row'>
+          {versionList.map((fullVersion) => (
+            <div
+              className='versionTag'
+              key={fullVersion.version}
+              onClick={() => setCurrentVersion(fullVersion)}
+            >
+              {fullVersion.version}
+            </div>
+          ))}
         </div>
       )}
 
-      {error && (
+      {showVersionInput && (
+        <div className='row __space-between'>
+          <Select label='Operator' onChange={chooseOperator} options={OPERATOR_LIST} value={operator} />
+
+          {operator === 'BE' ? (
+            <>
+              <Input error={showError} label='Min Version' onChange={chooseMin} />
+              <Input error={showError} label='Max Version' onChange={chooseMax} />
+            </>
+          ) : (
+            <Input error={showError} label='Version' onChange={chooseVersion} value={version} />
+          )}
+
+          {showDeleteButton && (
+            <button className='deleteButton' onClick={deleteCurrent}>X</button>
+          )}
+        </div>
+      )}
+
+      {formatError && (
         <div className='errorMessage'>Version must be formatted as [num].[num].[num], for example: 1.1.1</div>
+      )}
+
+      {repeatedError && (
+        <div className='errorMessage'>That version already exists.</div>
       )}
     </div>
   );

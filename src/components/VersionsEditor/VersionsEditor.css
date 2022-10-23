@@ -9,7 +9,7 @@
 
 .row {
   display: flex;
-  margin-bottom: 12px;
+  margin: 12px 0;
 }
 
 .row.__space-between {
@@ -73,6 +73,7 @@
 
 .versionTag:hover {
   background-color: #64748B;
+  cursor: pointer;
 }
 
 .versionTag.__algo {
@@ -89,4 +90,21 @@
   font-size: 12px;
   font-weight: 600;
   text-align: left;
+}
+
+.deleteButton {
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 8px;
+  color: red;
+  font-size: 22px;
+  font-family: sans-serif;
+  height: 34px;
+  margin-top: 6px;
+  width: 34px;
+}
+
+.deleteButton:hover {
+  background-color: #dddddd;
+  cursor: pointer;
 }

@@ -7,12 +7,12 @@ type Props = {
   options: string[];
 };
 
-const Input = ({ label, onChange, options }: Props) => {
-  const [value, setValue] = useState<string>(options[0].value);
-  const [focus, setFocus] = useState<boolean>(value ? true : false);
+const Input = ({ label, onChange, options, value }: Props): JSX.Element => {
+  const [newValue, setValue] = useState<string>(value || options[0].value);
+  const [focus, setFocus] = useState<boolean>(newValue ? true : false);
 
   const onBlur = (): void => {
-    if (!value) {
+    if (!newValue) {
       setFocus(false);
     }
   }
@@ -39,7 +39,7 @@ const Input = ({ label, onChange, options }: Props) => {
         onChange={onInputChange}
         onFocus={onFocus}
         type='text'
-        value={value}
+        value={newValue}
       >
         {options.map(({ text, value }) => <option key={value} value={value}>{text}</option>)}
       </select>
