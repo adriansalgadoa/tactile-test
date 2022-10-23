@@ -2,34 +2,11 @@ import { useState } from 'react';
 import Input from 'components/Input/Input';
 import Select from 'components/Input/Select';
 
-import OPERATOR_LIST from './OperatorList';
+import OPERATOR_LIST, { OPERATOR_IDS } from './OperatorList';
+import { formatVersion, validateVersionFormat } from './utils';
+
 import './VersionsEditor.css';
 
-const validateFormat = value => !value.match(/\d{1,3}\.\d{1,3}\.\d{1,3}/)
-
-const formatVersion = (operator, versions) => {
-  const mainVer = versions[0];
-  switch(operator) {
-    case 'GT':
-      return `> ${mainVer}`;
-      break;
-    case 'GTE':
-      return `≥ ${mainVer}`;
-      break;
-    case 'LT':
-      return `< ${mainVer}`;
-      break;
-    case 'LTE':
-      return `≤ ${mainVer}`;
-      break;
-    case 'BE':
-      return `]${versions.join('-')}[`;
-      break;
-    default:
-      return mainVer;
-      break;
-  };
-};
 
 const VersionsEditor = (): JSX.Element => {
   const [formatError, setFormatError] = useState<boolean>(false);
@@ -52,7 +29,7 @@ const VersionsEditor = (): JSX.Element => {
 
   const addVersion = () => {
     const versions = [];
-    if (operator === 'BE') {
+    if (operator === OPERATOR_IDS.BE) {
       versions.push(min);
       versions.push(max);
     } else {
@@ -60,24 +37,22 @@ const VersionsEditor = (): JSX.Element => {
     }
 
     // Validate if version has correct format only when clicking add
-    const validatedFormat = versions.find(validateFormat);
+    const validatedFormat = versions.find(validateVersionFormat);
 
     if (validatedFormat) {
       setFormatError(true);
       return;
     }
 
-    /*
-    const foundExisting = versionList.find((v) => version === v);
+    const newVersion = formatVersion(operator, versions);
 
+    const foundExisting = versionList.find((v) => newVersion === v.version);
     if (foundExisting) {
       setRepeatedError(true);
       return;
     }
-     */
 
     const newVersionList = [...versionList];
-    const newVersion = formatVersion(operator, versions);
 
     newVersionList.push({
       operator,
@@ -166,7 +141,7 @@ const VersionsEditor = (): JSX.Element => {
         <div className='row __space-between'>
           <Select label='Operator' onChange={chooseOperator} options={OPERATOR_LIST} value={operator} />
 
-          {operator === 'BE' ? (
+          {operator === OPERATOR_IDS.BE ? (
             <>
               <Input error={showError} label='Min Version' onChange={chooseMin} />
               <Input error={showError} label='Max Version' onChange={chooseMax} />

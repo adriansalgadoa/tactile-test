@@ -5,6 +5,7 @@ type Props = {
   label: string;
   onChange: (string) => void;
   options: string[];
+  value?: string;
 };
 
 const Input = ({ label, onChange, options, value }: Props): JSX.Element => {

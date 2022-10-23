@@ -18,3 +18,15 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### Todo
+- [x] Use design
+- [ ] Prod and Test versions
+- [x] All operators
+- [x] Error states (text as version and same version)
+- [x] Remove version
+- [ ] Version overlapping
+- [x] Typescript
+- [ ] Test
+- [ ] Document
+- [x] Between version operator

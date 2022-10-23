@@ -1,21 +1,37 @@
-const OPERATOR_LIST = [{
+type OperatorTypes = 'EQ' | 'GT' | 'GTE' | 'LT' | 'LTE' | 'BE';
+
+export type OperatorListElement = {
+  text: string;
+  value: OperatorTypes;
+}
+
+export const OPERATOR_IDS = {
+  EQ: 'EQ',
+  GT: 'GT',
+  GTE: 'GTE',
+  LT: 'LT',
+  LTE: 'LTE',
+  BE: 'BE',
+}
+
+const OPERATOR_LIST: OperatorListElement[] = [{
   text: 'equal =',
-  value: 'EQ',
+  value: OPERATOR_IDS.EQ,
 }, {
   text: 'greater than >',
-  value: 'GT',
+  value: OPERATOR_IDS.GT,
 }, {
   text: 'greater or equal ≥',
-  value: 'GTE',
+  value: OPERATOR_IDS.GTE,
 }, {
   text: 'less than <',
-  value: 'LT',
+  value: OPERATOR_IDS.LT,
 }, {
   text: 'less or equal ≤',
-  value: 'LTE',
+  value: OPERATOR_IDS.LTE,
 }, {
   text: 'between',
-  value: 'BE',
+  value: OPERATOR_IDS.BE,
 }];
 
 export default OPERATOR_LIST;
