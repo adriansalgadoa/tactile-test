@@ -4,14 +4,22 @@ import Input from 'components/Input/Input';
 import './VersionsEditor.css';
 
 const VersionsEditor = ():JSX.Element => {
-  const [showVersionInput, setShowVersionInput] = useState(false);
+  const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
+  const [operator, setOperator] = useState<string>('');
+  const [version, setVersion] = useState<string>('');
+  const [versionList, setVersionList] = useState<string[]>([]);
 
   const addVersion = () => {
-    console.log('add current version');
+    const newVersionList = [...versionList];
+    newVersionList.push(version);
+    setVersionList(newVersionList);
   }
 
   const chooseOperator = (a: string) => console.log('operator: ', a);
-  const chooseVersion = (a: string) => console.log('version: ', a);
+
+  const chooseVersion = (newVersion: string) => {
+    setVersion(newVersion);
+  }
 
   return (
     <div className='card'>
@@ -29,9 +37,7 @@ const VersionsEditor = ():JSX.Element => {
       </div>
 
       <div className='row'>
-        <div className='versionTag'>1.0.0</div>
-        <div className='versionTag __algo'>]1.2.1 - 1.4.0[</div>
-        <div className='versionTag'>1.2.0</div>
+        {versionList.map((versionTag) => <div className='versionTag' key={versionTag}>{versionTag}</div>)}
       </div>
 
       {showVersionInput && (
