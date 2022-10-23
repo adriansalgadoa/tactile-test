@@ -1,7 +1,28 @@
 import { useState } from 'react';
 import Input from 'components/Input/Input';
+import Select from 'components/Input/Select';
 
 import './VersionsEditor.css';
+
+const OPERATOR_LIST = [{
+  text: 'equal =',
+  value: 'EQ',
+}, {
+  text: 'greater than >',
+  value: 'GT',
+}, {
+  text: 'greater or equal ≥',
+  value: 'GTE',
+}, {
+  text: 'less than <',
+  value: 'LT',
+}, {
+  text: 'less or equal ≤',
+  value: 'LTE',
+}, {
+  text: 'between',
+  value: 'BE',
+}];
 
 const VersionsEditor = ():JSX.Element => {
   const [showVersionInput, setShowVersionInput] = useState<boolean>(false);
@@ -13,6 +34,7 @@ const VersionsEditor = ():JSX.Element => {
     const newVersionList = [...versionList];
     newVersionList.push(version);
     setVersionList(newVersionList);
+    setShowVersionInput(false);
   }
 
   const chooseOperator = (a: string) => console.log('operator: ', a);
@@ -42,7 +64,7 @@ const VersionsEditor = ():JSX.Element => {
 
       {showVersionInput && (
         <div className='row __space-between'>
-          <Input label='Operator' onChange={chooseOperator} />
+          <Select label='Operator' onChange={chooseOperator} options={OPERATOR_LIST} />
           <Input label='Version' onChange={chooseVersion} />
         </div>
       )}
