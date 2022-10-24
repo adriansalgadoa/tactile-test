@@ -4,14 +4,15 @@ import Select from 'components/Input/Select';
 
 import OPERATOR_LIST, { OPERATOR_IDS } from './OperatorList';
 import { formatVersion, validateVersionFormat } from './utils';
+import checkOverlaps from './Overlap';
 
 import './VersionsEditor.css';
 
-type VersionElementType = {
+// @TODO: This type could be moved to a more reusable spot
+export type VersionElementType = {
   operator: string;
   version: string;
   overlap?: boolean;
-  text?: string;
 }
 
 const INITIAL_OPERATOR = OPERATOR_LIST[0].value;
@@ -64,14 +65,17 @@ const VersionsEditor = (): JSX.Element => {
 
     const newVersionList = [...versionList];
 
-    newVersionList.push({
+    const newVersionObject = {
       overlap: false,
       operator,
       version: newVersion,
-      text: newVersion,
-    });
+    };
 
-    setVersionList(newVersionList);
+    newVersionList.push(newVersionObject);
+
+    const finalVersionList = checkOverlaps(newVersionList);
+
+    setVersionList(finalVersionList);
     clearState();
   }
 
@@ -107,7 +111,8 @@ const VersionsEditor = (): JSX.Element => {
     const foundIndex = newVersionList.findIndex(listElement => version === listElement.version);
 
     newVersionList.splice(foundIndex, 1);
-    setVersionList(newVersionList);
+    const anyOverlaps = checkOverlaps(newVersionList);
+    setVersionList(anyOverlaps);
     clearState();
   }
 
@@ -139,7 +144,7 @@ const VersionsEditor = (): JSX.Element => {
         <div className='row'>
           {versionList.map((fullVersion) => (
             <div
-              className='versionTag'
+              className={`versionTag ${fullVersion.overlap && '__overlap'}`}
               key={fullVersion.version}
               onClick={() => setCurrentVersion(fullVersion)}
             >

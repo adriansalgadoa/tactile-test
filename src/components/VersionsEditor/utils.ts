@@ -25,4 +25,3 @@ export const formatVersion = (operator: string, versions: string[]) => {
 };
 
 export const validateVersionFormat = (value: string): boolean => !!!value.match(/\d{1,3}\.\d{1,3}\.\d{1,3}$/)
-

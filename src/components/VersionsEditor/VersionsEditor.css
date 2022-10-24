@@ -76,12 +76,12 @@
   cursor: pointer;
 }
 
-.versionTag.__algo {
+.versionTag.__overlap {
   background-color: #E2E8F8;
   color: #64748B;
 }
 
-.versionTag.__algo:hover {
+.versionTag.__overlap:hover {
   background-color: #CBD6E1;
 }
 

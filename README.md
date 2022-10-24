@@ -34,6 +34,7 @@ that follow the same consistent design. This should be done for most basic compo
 Things that could be improved are:
 - Add tests for Input and Select component
 - Create separate directories for Button, Title and VersionTag components (to make a reusable design system UI)
+- Add overlapping for between operator
 
 ### Todo
 - [x] Use design
@@ -45,4 +46,5 @@ Things that could be improved are:
 - [x] Test
 - [x] Between version operator
 - [x] Document
-- [ ] Version overlapping
+- [x] Version overlapping
+- [ ] Between version overlapping
