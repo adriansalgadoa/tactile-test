@@ -1,0 +1,110 @@
+.card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 12px;
+  width: 800px; /* This can be adjusted to be responsive depening on containers */
+}
+
+.row {
+  display: flex;
+  margin: 12px 0;
+}
+
+.row.__space-between {
+  justify-content: space-between;
+}
+
+.title {
+  color: #64748B;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+
+/* Button */
+.button {
+  align-self: center;
+  background-color: white;
+  border: 1px solid #C7D2FE;
+  border-radius: 6px;
+  color: #4F46E5;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  letter-spacing: 1.25px;
+  line-height: 24px;
+  margin-right: 8px; /* Push other buttons */
+  min-width: 112px;
+  padding: 6px 16px;
+  text-transform: uppercase;
+  transition: all .2s ease-out;
+}
+
+.button:last-child {
+  margin-right: 0;
+}
+
+.button:hover {
+  background-color: #4F46E5;
+  color: white;
+  cursor: pointer;
+}
+
+.buttonContainer {
+}
+
+/* Version */
+.versionTag {
+  background-color: #334155;
+  border-radius: 30px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.15px;
+  line-height: 18px;
+  margin-right: 6px;
+  padding: 4px 12px;
+}
+
+.versionTag:hover {
+  background-color: #64748B;
+  cursor: pointer;
+}
+
+.versionTag.__overlap {
+  background-color: #E2E8F8;
+  color: #64748B;
+}
+
+.versionTag.__overlap:hover {
+  background-color: #CBD6E1;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.deleteButton {
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 8px;
+  color: red;
+  font-size: 22px;
+  font-family: sans-serif;
+  height: 34px;
+  margin-top: 6px;
+  width: 34px;
+}
+
+.deleteButton:hover {
+  background-color: #dddddd;
+  cursor: pointer;
+}

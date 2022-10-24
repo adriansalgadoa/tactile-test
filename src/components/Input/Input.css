@@ -1,0 +1,42 @@
+.input {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F8;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  height: 54px;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.input:focus {
+  border: 1px solid #000;
+}
+
+.input.__error {
+  border-color: red;
+}
+
+.inputLabel {
+  pointer-events: none;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  transition: all .3s ease-out;
+}
+
+.inputLabel.__focus {
+  font-size: 12px;
+  top: 4px;
+}
+
+.inputContainer {
+  flex: 1 1 0;
+  margin-right: 16px;
+  min-width: 0;
+  position: relative;
+}
+
+.inputContainer:last-child {
+  margin-right: 0;
+}
