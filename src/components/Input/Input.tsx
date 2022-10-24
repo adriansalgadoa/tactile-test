@@ -6,9 +6,10 @@ type Props = {
   onChange: (value:string) => void;
   error?: boolean;
   value?: string;
+  testId?: string;
 };
 
-const Input = ({ error, label, onChange, value = '' }: Props): JSX.Element => {
+const Input = ({ error, label, onChange, value = '', testId }: Props): JSX.Element => {
   const [focus, setFocus] = useState<boolean>(value ? true : false);
   const [newValue, setValue] = useState<string>(value);
 
@@ -37,6 +38,7 @@ const Input = ({ error, label, onChange, value = '' }: Props): JSX.Element => {
       <label className={inputLabelClassName}>{label}</label>
       <input
         className={inputClassName}
+        data-testid={testId}
         onBlur={onBlur}
         onChange={onInputChange}
         onFocus={onFocus}

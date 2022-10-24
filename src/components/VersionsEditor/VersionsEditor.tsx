@@ -38,6 +38,7 @@ const VersionsEditor = (): JSX.Element => {
 
   const addVersion = () => {
     const versions: string[] = [];
+
     if (operator === OPERATOR_IDS.BE) {
       versions.push(min);
       versions.push(max);
@@ -46,7 +47,7 @@ const VersionsEditor = (): JSX.Element => {
     }
 
     // Validate if version has correct format only when clicking add
-    const validatedFormat = versions.find(validateVersionFormat);
+    const validatedFormat = versions.some(validateVersionFormat);
 
     if (validatedFormat) {
       setFormatError(true);
@@ -158,7 +159,7 @@ const VersionsEditor = (): JSX.Element => {
               <Input error={showError} label='Max Version' onChange={chooseMax} />
             </>
           ) : (
-            <Input error={showError} label='Version' onChange={chooseVersion} value={version} />
+            <Input error={showError} label='Version' onChange={chooseVersion} value={version} testId='version-input'/>
           )}
 
           {showDeleteButton && (
@@ -168,11 +169,11 @@ const VersionsEditor = (): JSX.Element => {
       )}
 
       {formatError && (
-        <div className='errorMessage'>Version must be formatted as [num].[num].[num], for example: 1.1.1</div>
+        <div className='errorMessage' data-testid='format-error'>Version must be formatted as [num].[num].[num], for example: 1.1.1</div>
       )}
 
       {repeatedError && (
-        <div className='errorMessage'>That version already exists.</div>
+        <div className='errorMessage' data-testid='repeated-error'>That version already exists.</div>
       )}
     </div>
   );

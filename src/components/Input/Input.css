@@ -2,10 +2,11 @@
   background-color: #F8FAFC;
   border: 1px solid #E2E8F8;
   border-radius: 4px;
+  box-sizing: border-box;
   font-size: 16px;
   height: 54px;
-  padding: 0 16px;
-  width: 360px;
+  padding: 0 12px;
+  width: 100%;
 }
 
 .input:focus {
@@ -30,5 +31,12 @@
 }
 
 .inputContainer {
+  flex: 1 1 0;
+  margin-right: 16px;
+  min-width: 0;
   position: relative;
+}
+
+.inputContainer:last-child {
+  margin-right: 0;
 }
